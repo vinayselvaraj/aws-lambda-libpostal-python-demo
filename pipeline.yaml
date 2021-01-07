@@ -18,6 +18,25 @@ Resources:
   ArtifactBucket:
     Type: AWS::S3::Bucket
   
+  ECRRepo:
+    Type: AWS::ECR::Repository
+    Properties:
+      LifecyclePolicy:
+        LifecyclePolicyText: |
+          {
+            "rules": [{
+              "rulePriority": 1,
+              "selection": {
+                "tagStatus": "any",
+                "countType": "imageCountMoreThan",
+                "countNumber": 2
+              },
+              "action": {
+                "type": "expire"
+              }
+            }]
+          }
+
   CodeRepo:
     Type: AWS::CodeCommit::Repository
     Properties:
@@ -32,6 +51,10 @@ Resources:
         Image: aws/codebuild/amazonlinux2-x86_64-standard:3.0
         Type: LINUX_CONTAINER
         EnvironmentVariables:
+          - Name: AWS_ACCOUNT_ID
+            Value: !Ref AWS::AccountId
+          - Name: IMAGE_REPO_NAME
+            Value: !Ref ECRRepo
           - Name: S3_CODE_BUCKET
             Value: !Ref ArtifactBucket
             Type: PLAINTEXT

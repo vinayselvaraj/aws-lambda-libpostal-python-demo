@@ -1,18 +1,20 @@
 version: 0.2
-
 phases:
-  install:
-    runtime-versions:
-      python: 3.7
   pre_build:
     commands:
       - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+      - date +'%Y%m%d%H%M%S' > image_tag
+      - echo "{ \"image_name\" ":" \"`echo $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME`\", \"image_tag\" ":" \"`cat image_tag`\" }" > output.json
   build:
     commands:
-      - 
+      - docker build -f Dockerfile -t $IMAGE_REPO_NAME:`cat image_tag` .
+      - docker tag $IMAGE_REPO_NAME:`cat image_tag` $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:`cat image_tag` 
+  post_build:
+    commands:
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:`cat image_tag`
 
 artifacts:
-  type: zip
   files:
-    - stack.yaml
+    - output.json
+    - template.yaml
   discard-paths: yes
