@@ -1,0 +1,5 @@
+enum34==1.1.10
+pathlib==1.0.1
+py==1.10.0
+pyzbar==0.1.8
+Pillow==8.1.0

@@ -1,0 +1,40 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: ZBar Lambda
+Transform: AWS::Serverless-2016-10-31
+
+Resources:
+
+  LambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Sid: ''
+          Effect: Allow
+          Principal:
+            Service:
+            - lambda.amazonaws.com
+          Action: sts:AssumeRole
+      Policies:
+      - PolicyName: S3Policy
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+          - Sid: S3Policy
+            Effect: Allow
+            Action:
+            - s3:Get*
+            Resource:
+            - "*"
+
+  LambdaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: zip_dir/
+      Handler: lambda/main.handler
+      MemorySize: 256
+      Timeout: 90
+      Runtime: python3.7
+      Role: !GetAtt LambdaRole.Arn
