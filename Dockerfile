@@ -6,7 +6,7 @@ RUN mkdir /build
 RUN cd /build && git clone https://github.com/openvenues/libpostal
 RUN mkdir -p /data/libpostal
 RUN cd /build/libpostal && ./bootstrap.sh
-RUN cd /build/libpostal && ./configure --datadir=/data/libpostal
+RUN cd /build/libpostal && ./configure --datadir=/data/libpostal --prefix=/
 RUN cd /build/libpostal && make -j5 && make install
 
 COPY requirements.txt /tmp
