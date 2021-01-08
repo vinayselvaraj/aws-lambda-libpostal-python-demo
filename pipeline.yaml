@@ -126,7 +126,12 @@ Resources:
             RoleArn: !GetAtt CloudFormationServiceRole.Arn
             Capabilities: CAPABILITY_IAM,CAPABILITY_AUTO_EXPAND,CAPABILITY_NAMED_IAM
             StackName: !Ref TargetStackName
-            TemplatePath: BuildOutput::stack.yaml
+            TemplatePath: BuildOutput::template.yaml
+            ParameterOverrides: |
+              {
+                "ImageName" : { "Fn::GetParam" : [ "BuildOutput", "output.json", "image_name"]},
+                "ImageTag" : { "Fn::GetParam" : [ "BuildOutput", "output.json", "image_tag"]}
+              }
           RunOrder: '1'
 
   CodeBuildServiceRole:
@@ -185,6 +190,16 @@ Resources:
             Effect: Allow
           - Action:
             - ec2:Describe*
+            Resource: "*"
+            Effect: Allow
+          - Action:
+            - ecr:GetDownloadUrlForLayer
+            - ecr:BatchGetImage
+            - ecr:BatchCheckLayerAvailability
+            - ecr:InitiateLayerUpload
+            - ecr:PutImage
+            - ecr:UploadLayerPart
+            - ecr:CompleteLayerUpload
             Resource: "*"
             Effect: Allow
   

@@ -3,8 +3,13 @@ AWSTemplateFormatVersion: '2010-09-09'
 Description: ZBar Lambda
 Transform: AWS::Serverless-2016-10-31
 
-Resources:
+Parameters:
+  ImageName:
+    Type: String
+  ImageTag:
+    Type: String
 
+Resources:
   LambdaRole:
     Type: AWS::IAM::Role
     Properties:
@@ -30,9 +35,10 @@ Resources:
             - "*"
 
   LambdaFunction:
-    Type: AWS::Serverless::Function
+    Type: AWS::Lambda::Function
     Properties:
-      CodeUri: zip_dir/
+      Code:
+        ImageUri: !Sub "${AWS::AccountId}.dkr.ecr.${AWS::Region}/${ImageName}:${ImageTag}"
       Handler: lambda/main.handler
       MemorySize: 256
       Timeout: 90
