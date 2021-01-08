@@ -13,6 +13,8 @@ RUN ln -s `ls /usr/local/lib/libpostal.so.1.*` /usr/lib/libpostal.so
 RUN ln -s `ls /usr/local/lib/libpostal.so.1.*` /usr/lib64/libpostal.so.1
 RUN ln -s `ls /usr/local/lib/libpostal.so.1.*` /usr/lib64/libpostal.so
 
+RUN find / -name "*.so.*" 2>/dev/null
+
 COPY requirements.txt /tmp
 RUN pip install -r /tmp/requirements.txt
 COPY lambda/* ${LAMBDA_TASK_ROOT}
