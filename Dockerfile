@@ -1,0 +1,16 @@
+FROM public.ecr.aws/lambda/python:3.8
+
+RUN yum groupinstall "Development Tools" -y
+
+RUN mkdir /build
+RUN cd /build && git clone https://github.com/openvenues/libpostal
+RUN mkdir -p /data/libpostal
+RUN cd /build/libpostal && ./bootstrap.sh
+RUN cd /build/libpostal && ./configure --datadir=/data/libpostal
+RUN cd /build/libpostal && make -j5 && make install
+
+COPY requirements.txt /tmp
+RUN pip install -r /tmp/requirements.txt
+COPY lambda/* ${LAMBDA_TASK_ROOT}
+
+CMD [ "app.handler" ]

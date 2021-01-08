@@ -48,7 +48,7 @@ Resources:
       Name: !Join ["-", [!Ref "AWS::StackName", "codebuild"]]
       Environment:
         ComputeType: BUILD_GENERAL1_SMALL
-        Image: aws/codebuild/amazonlinux2-x86_64-standard:3.0
+        Image: aws/codebuild/standard:4.0
         Type: LINUX_CONTAINER
         EnvironmentVariables:
           - Name: AWS_ACCOUNT_ID
