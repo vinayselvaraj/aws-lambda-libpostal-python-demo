@@ -3,6 +3,6 @@ import json
 from postal.expand import expand_address
 
 def handler(event, context):
-    result = expand_address('Quatre vingt douze Ave des Champs-Élysées')
+    result = expand_address(event['address'])
     print(result)
     return json.dumps(result)
