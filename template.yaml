@@ -1,7 +1,6 @@
 ---
 AWSTemplateFormatVersion: '2010-09-09'
 Description: ZBar Lambda
-Transform: AWS::Serverless-2016-10-31
 
 Parameters:
   ImageName:
@@ -38,9 +37,8 @@ Resources:
     Type: AWS::Lambda::Function
     Properties:
       Code:
-        ImageUri: !Sub "${AWS::AccountId}.dkr.ecr.${AWS::Region}/${ImageName}:${ImageTag}"
-      Handler: lambda/main.handler
+        ImageUri: !Sub "https://${ImageName}:${ImageTag}"
+      PackageType: Image
       MemorySize: 256
       Timeout: 90
-      Runtime: python3.7
       Role: !GetAtt LambdaRole.Arn
