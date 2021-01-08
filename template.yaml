@@ -37,7 +37,7 @@ Resources:
     Type: AWS::Lambda::Function
     Properties:
       Code:
-        ImageUri: !Sub "https://${ImageName}:${ImageTag}"
+        ImageUri: !Sub "${ImageName}:${ImageTag}"
       PackageType: Image
       MemorySize: 256
       Timeout: 90
