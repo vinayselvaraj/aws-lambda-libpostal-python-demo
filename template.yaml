@@ -39,6 +39,6 @@ Resources:
       Code:
         ImageUri: !Sub "${ImageName}:${ImageTag}"
       PackageType: Image
-      MemorySize: 256
-      Timeout: 90
+      MemorySize: 8192
+      Timeout: 900
       Role: !GetAtt LambdaRole.Arn
