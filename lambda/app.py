@@ -7,4 +7,4 @@ def handler(event, context):
     result = dict()
     for i in parse_output:
       result[i[1]] = i[0]
-    return json.dumps(result)
+    return result
