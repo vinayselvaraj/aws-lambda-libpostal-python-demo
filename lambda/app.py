@@ -16,4 +16,4 @@ def handler(event, context):
         result[i[1]] = i[0]
       results.append(result)
     
-    return result
+    return results
