@@ -1,6 +1,6 @@
 ---
 AWSTemplateFormatVersion: '2010-09-09'
-Description: ZBar Lambda
+Description: Libpostal Lambda
 
 Parameters:
   ImageName:
@@ -42,3 +42,7 @@ Resources:
       MemorySize: 8192
       Timeout: 900
       Role: !GetAtt LambdaRole.Arn
+
+Outputs:
+  FunctionName:
+    Value: !Ref LambdaFunction

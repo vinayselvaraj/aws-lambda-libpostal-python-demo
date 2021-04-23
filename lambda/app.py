@@ -1,19 +1,15 @@
 import os
 import json
 from postal.parser import parse_address
-from postal.expand import expand_address
 
 def handler(event, context):
+  parse_output = parse_address(event['address'])
+  result = dict()
 
-    expanded_addresses = expand_address(event['address'])
+  for i in parse_output:
+    result[i[1]] = i[0]
+  
+  print("Result:")
+  print(result)
 
-    results = []
-
-    for expanded_address in expanded_addresses:
-      parse_output = parse_address(expanded_address)
-      result = dict()
-      for i in parse_output:
-        result[i[1]] = i[0]
-      results.append(result)
-    
-    return results
+  return result

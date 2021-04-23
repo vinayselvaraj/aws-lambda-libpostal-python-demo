@@ -20,3 +20,4 @@ RUN pip install -r /tmp/requirements.txt
 COPY lambda/* ${LAMBDA_TASK_ROOT}
 
 CMD [ "app.handler" ]
+
